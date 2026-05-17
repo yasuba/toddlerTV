@@ -1,5 +1,6 @@
 library.db
 videos/
+current-session/
 .scala-build/
 .bsp/
 prd.env
