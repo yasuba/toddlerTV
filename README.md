@@ -7,7 +7,6 @@ A CLI tool for maintaining a curated library of pre-vetted video content for a p
 - [scala-cli](https://scala-cli.virtuslab.org/)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [mpv](https://mpv.io/) (for review playback)
-- `ANTHROPIC_API_KEY` environment variable (for tag enrichment)
 
 ## Usage
 
@@ -15,7 +14,7 @@ A CLI tool for maintaining a curated library of pre-vetted video content for a p
 # Add videos to the library (fetches metadata, does not download yet)
 scala-cli run . -- add "https://www.youtube.com/watch?v=..."
 
-# Enrich with structured tags via LLM
+# Enrich with structured tags (rules-based, no API key needed)
 scala-cli run . -- enrich --all-candidates
 scala-cli run . -- enrich --id bluey-keepy-uppy
 
@@ -46,4 +45,5 @@ Everything lives in the project directory:
 
 - `library.db` — SQLite database (gitignored)
 - `videos/` — downloaded files (gitignored)
+- `config/tag-rules.json` — tagging rules (channel defaults, keyword dictionary, duration buckets)
 - `current-session.m3u` — last generated playlist

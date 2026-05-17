@@ -1,0 +1,178 @@
+{
+  "channelDefaults": {
+    "Cocomelon": {
+      "pacing": "Stimulating",
+      "contentType": "Musical",
+      "moods": ["Energetic", "Silly"],
+      "hasMusic": true,
+      "hasNarration": false,
+      "ageRange": { "minMonths": 12, "maxMonths": 48 }
+    },
+    "Super Simple Songs": {
+      "pacing": "Calm",
+      "contentType": "Musical",
+      "moods": ["Cosy"],
+      "hasMusic": true,
+      "hasNarration": false,
+      "ageRange": { "minMonths": 12, "maxMonths": 48 }
+    },
+    "Ms Rachel - Toddler Learning Videos": {
+      "pacing": "Calm",
+      "contentType": "Educational",
+      "moods": ["Curious"],
+      "hasMusic": true,
+      "hasNarration": true,
+      "ageRange": { "minMonths": 12, "maxMonths": 36 }
+    },
+    "Blippi": {
+      "pacing": "Stimulating",
+      "contentType": "Educational",
+      "moods": ["Energetic", "Curious"],
+      "hasMusic": false,
+      "hasNarration": true,
+      "ageRange": { "minMonths": 24, "maxMonths": 60 }
+    },
+    "Hey Bear Sensory": {
+      "pacing": "Calm",
+      "contentType": "Mixed",
+      "moods": ["WindDown", "Cosy"],
+      "hasMusic": true,
+      "hasNarration": false,
+      "ageRange": { "minMonths": 0, "maxMonths": 24 }
+    },
+    "Little Baby Bum": {
+      "pacing": "Moderate",
+      "contentType": "Musical",
+      "moods": ["Cosy", "Silly"],
+      "hasMusic": true,
+      "hasNarration": false,
+      "ageRange": { "minMonths": 6, "maxMonths": 36 }
+    },
+    "Peppa Pig": {
+      "pacing": "Moderate",
+      "contentType": "Narrative",
+      "moods": ["Silly", "Cosy"],
+      "hasMusic": false,
+      "hasNarration": true,
+      "ageRange": { "minMonths": 24, "maxMonths": 60 }
+    },
+    "Bluey": {
+      "pacing": "Moderate",
+      "contentType": "Narrative",
+      "moods": ["Silly", "Curious"],
+      "hasMusic": false,
+      "hasNarration": true,
+      "ageRange": { "minMonths": 30, "maxMonths": 72 }
+    },
+    "Numberblocks": {
+      "pacing": "Moderate",
+      "contentType": "Educational",
+      "moods": ["Curious"],
+      "hasMusic": true,
+      "hasNarration": true,
+      "ageRange": { "minMonths": 30, "maxMonths": 60 }
+    },
+    "Sesame Street": {
+      "pacing": "Moderate",
+      "contentType": "Educational",
+      "moods": ["Curious", "Silly"],
+      "hasMusic": true,
+      "hasNarration": true,
+      "ageRange": { "minMonths": 24, "maxMonths": 60 }
+    }
+  },
+  "keywordRules": [
+    {
+      "keywords": ["nursery rhyme", "nursery rhymes", "rhyme time", "mother goose"],
+      "apply": {
+        "contentType": "Musical",
+        "hasMusic": true,
+        "moods": ["Cosy"]
+      }
+    },
+    {
+      "keywords": ["learn", "learning", "educational", "teach", "lessons"],
+      "apply": {
+        "contentType": "Educational",
+        "moods": ["Curious"]
+      }
+    },
+    {
+      "keywords": ["animal", "animals", "farm animals", "zoo", "dinosaur", "dinosaurs", "puppy", "kitten"],
+      "apply": {
+        "moods": ["Curious"]
+      }
+    },
+    {
+      "keywords": ["story", "stories", "storytime", "story time", "bedtime story", "fairy tale"],
+      "apply": {
+        "contentType": "Narrative",
+        "hasNarration": true,
+        "moods": ["Cosy"]
+      }
+    },
+    {
+      "keywords": ["sing along", "sing-along", "singalong", "karaoke", "let's sing"],
+      "apply": {
+        "contentType": "Musical",
+        "hasMusic": true,
+        "moods": ["Energetic"]
+      }
+    },
+    {
+      "keywords": ["cartoon", "animated", "animation"],
+      "apply": {
+        "contentType": "Narrative"
+      }
+    },
+    {
+      "keywords": ["science", "experiment", "how does", "why do", "stem"],
+      "apply": {
+        "contentType": "Educational",
+        "moods": ["Curious"]
+      }
+    },
+    {
+      "keywords": ["sensory", "baby sensory", "calming", "relaxing", "sleep", "lullaby", "lullabies"],
+      "apply": {
+        "pacing": "Calm",
+        "moods": ["WindDown", "Cosy"],
+        "ageRange": { "minMonths": 0, "maxMonths": 18 }
+      }
+    },
+    {
+      "keywords": ["numbers", "counting", "count to", "123", "1 2 3"],
+      "apply": {
+        "contentType": "Educational",
+        "moods": ["Curious"]
+      }
+    },
+    {
+      "keywords": ["alphabet", "abc", "abcs", "phonics", "letters"],
+      "apply": {
+        "contentType": "Educational",
+        "moods": ["Curious"]
+      }
+    }
+  ],
+  "durationBuckets": [
+    {
+      "name": "short",
+      "maxSeconds": 180,
+      "apply": {
+        "pacing": "Calm"
+      }
+    },
+    {
+      "name": "medium",
+      "maxSeconds": 600,
+      "apply": {}
+    },
+    {
+      "name": "long",
+      "apply": {
+        "pacing": "Moderate"
+      }
+    }
+  ]
+}

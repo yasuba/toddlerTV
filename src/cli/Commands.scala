@@ -5,7 +5,7 @@ import cats.syntax.all.*
 import com.monovore.decline.*
 import javax.sql.DataSource
 import kidstv.domain.*
-import kidstv.enrich.{AnthropicClient, TagExtractor}
+import kidstv.enrich.{RuleBasedTagger, TagExtractor}
 import kidstv.fetch.YtDlp
 import kidstv.session.Builder
 import kidstv.storage.{Db, VideoRepo, MetadataRepo, TagOverrideRepo, HistoryRepo}
@@ -62,14 +62,11 @@ object Commands:
 
   def enrichRun(ds: DataSource, id: Option[String], all: Boolean): IO[ExitCode] =
     for
-      apiKey <- IO.fromOption(sys.env.get("ANTHROPIC_API_KEY")):
-        RuntimeException("ANTHROPIC_API_KEY environment variable not set")
-      prompt <- TagExtractor.loadPrompt
-      client  = AnthropicClient.make(apiKey)
+      rules  <- RuleBasedTagger.loadRules(os.pwd / "config" / "tag-rules.json")
       videos <- resolveEnrichTargets(ds, id, all)
       _      <- if videos.isEmpty then IO.println("No videos to enrich.")
                 else IO.println(s"Enriching ${videos.size} video(s)...") *>
-                     videos.traverse_(v => enrichOne(ds, client, prompt, v))
+                     videos.traverse_(v => enrichOne(ds, rules, v))
     yield ExitCode.Success
 
   private def resolveEnrichTargets(ds: DataSource, id: Option[String], all: Boolean): IO[Vector[Video]] =
@@ -83,13 +80,13 @@ object Commands:
       case (None, false) =>
         IO.raiseError(RuntimeException("Specify --id <id> or --all-candidates"))
 
-  private def enrichOne(ds: DataSource, client: kidstv.enrich.LlmClient, prompt: String, video: Video): IO[Unit] =
+  private def enrichOne(ds: DataSource, rules: RuleBasedTagger.TagRules, video: Video): IO[Unit] =
     val action = for
       metadata  <- Db.connectIO(ds)(MetadataRepo.findByVideoId(video.id))
       _         <- if metadata.isEmpty then IO.raiseError(RuntimeException("No metadata found — run 'add' first"))
                    else IO.unit
       metaMap    = metadata.toMap
-      tags      <- TagExtractor.extractTags(client, prompt, metaMap)
+      tags      <- RuleBasedTagger.extractTags(rules, metaMap)
       overrides <- Db.connectIO(ds)(TagOverrideRepo.findByVideoId(video.id))
       finalTags  = if overrides.nonEmpty then TagExtractor.applyOverrides(tags, overrides) else tags
       now       <- IO.realTimeInstant

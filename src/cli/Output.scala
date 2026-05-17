@@ -27,14 +27,16 @@ object Output:
   def table(videos: Vector[Video]): String =
     if videos.isEmpty then return "No videos found."
 
-    val headers = Vector("ID", "TITLE", "DURATION", "STATUS", "PACING")
+    val headers = Vector("ID", "TITLE", "DURATION", "STATUS", "PACING", "TYPE", "MOODS")
     val rows = videos.map: v =>
       Vector(
         v.id,
         truncate(v.title, 40),
         v.runtimeSeconds.map(formatDuration).getOrElse("-"),
         statusLabel(v.status),
-        v.tags.map(_.pacing.toString).getOrElse("-")
+        v.tags.map(_.pacing.toString).getOrElse("-"),
+        v.tags.map(_.contentType.toString).getOrElse("-"),
+        v.tags.map(_.moods.mkString(",")).filter(_.nonEmpty).getOrElse("-")
       )
 
     val allRows = headers +: rows
