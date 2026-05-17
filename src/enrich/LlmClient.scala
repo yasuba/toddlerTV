@@ -17,9 +17,15 @@ object AnthropicClient:
     def complete(systemPrompt: String, userMessage: String): IO[String] =
       IO.blocking:
         val body = Json.obj(
-          "model"      -> "claude-sonnet-4-20250514".asJson,
+          "model"      -> "claude-haiku-4-5-20251001".asJson,
           "max_tokens" -> 1024.asJson,
-          "system"     -> systemPrompt.asJson,
+          "system"     -> Json.arr(
+            Json.obj(
+              "type" -> "text".asJson,
+              "text" -> systemPrompt.asJson,
+              "cache_control" -> Json.obj("type" -> "ephemeral".asJson)
+            )
+          ).asJson,
           "messages"   -> Json.arr(
             Json.obj("role" -> "user".asJson, "content" -> userMessage.asJson)
           )
@@ -28,6 +34,7 @@ object AnthropicClient:
           .post(baseUrl)
           .header("x-api-key", apiKey)
           .header("anthropic-version", "2023-06-01")
+          .header("anthropic-beta", "prompt-caching-2024-07-31")
           .contentType("application/json")
           .body(body.noSpaces)
 

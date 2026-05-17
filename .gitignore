@@ -2,3 +2,5 @@ library.db
 videos/
 .scala-build/
 .bsp/
+prd.env
+.idea/
